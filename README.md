@@ -10,7 +10,7 @@ docker build -t t4pysa .
 
 ### run docker with gpu & memory
 ```python
-docker run -it --gpus all --shm 2gb t4pysa
+docker run -it --gpus all --shm-size=32gb t4pysa 
 ```
 
 
