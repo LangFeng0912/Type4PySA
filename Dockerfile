@@ -2,6 +2,11 @@
 
 FROM nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu20.04
 
+# WORKDIR /maindir
+# COPY train_model.sh /maindir/
+# RUN chmod +x /maindir/train_model.sh
+# ENTRYPOINT ["/maindir/train_model.sh"]
+
 RUN ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
 
 # RUN apt-get purge libappstream3
@@ -19,8 +24,6 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install -y expect
 
 RUN apt-get install -y python3-distutils
-# Watchman dependencies
-RUN apt install -y libgoogle-glog0v5 libboost-context1.71.0 libdouble-conversion3 libevent-2.1-7 libsnappy1v5
 
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python3 get-pip.py
@@ -31,9 +34,9 @@ RUN apt-get install -y libssl-dev
 
 # download watchman
 RUN wget https://github.com/facebook/watchman/releases/download/v2022.12.12.00/watchman_ubuntu20.04_v2022.12.12.00.deb
-RUN dpkg -i watchman_ubuntu20.04_v2022.12.12.00.deb
-RUN apt-get -f -y install
-RUN watchman version
+# RUN dpkg -i watchman_ubuntu20.04_v2022.12.12.00.deb
+# RUN apt-get -f -y install
+# RUN watchman version
 
 # RUN apt install -y python3.8-venv
 # RUN python3 -m venv py38
@@ -70,3 +73,9 @@ RUN python3 -c "import nltk; nltk.download('averaged_perceptron_tagger')"
 # download dataset
 RUN wget https://zenodo.org/record/8255564/files/ManyTypes4PyV8.tar.gz?download=1
 RUN tar -xzvf ManyTypes4PyV8.tar.gz\?download\=1
+
+WORKDIR /maindir
+COPY train_model.sh /maindir/
+RUN chmod +x /maindir/train_model.sh
+ENTRYPOINT ["/maindir/train_model.sh"]
+
