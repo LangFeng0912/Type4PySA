@@ -2,7 +2,6 @@
 # train_model.sh
 
 export LIM="256" # Set default project numbers as 256
-echo $LIM
 
 while [[ $# -gt 0 ]]; do
   key="$1"
@@ -20,7 +19,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-echo $LIM
+echo "Model is training on : $LIM projects"
 
 cd /..
 cd MTV0.8/
