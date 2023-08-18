@@ -24,3 +24,12 @@ echo "Model is training on : $LIM projects"
 cd /..
 cd MTV0.8/
 type4py preprocess --o dataset --l $LIM
+type4py vectorize --o dataset
+type4py learns --o dataset --dt var
+type4py learns --o dataset --dt param
+type4py learns --o dataset --dt ret
+type4py gen_type_clu --o dataset --dt var
+type4py gen_type_clu --o dataset --dt param
+type4py gen_type_clu --o dataset --dt ret
+type4py reduce --o dataset --d 256
+type4py to_onnx --o dataset
