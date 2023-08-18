@@ -20,6 +20,11 @@ docker run -it --gpus all --shm-size=32gb t4pysa
 source py38/bin/activate
 ```
 
+#### install libsa4py
+```python
+pip install -e libsa4py/
+```
+
 #### install annoy
 ```python
 pip install https://type4py.com/pretrained_models/annoy-wheels/annoy-1.17.0-cp38-cp38-linux_x86_64.whl
