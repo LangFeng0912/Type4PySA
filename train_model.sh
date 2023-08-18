@@ -33,3 +33,8 @@ type4py gen_type_clu --o dataset --dt param
 type4py gen_type_clu --o dataset --dt ret
 type4py reduce --o dataset --d 256
 type4py to_onnx --o dataset
+
+cd /..
+cp MTV0.8/dataset/label_encoder_all.pkl results/
+cp MTV0.8/dataset/type4py_complete_type_cluster_reduced results/
+cp MTV0.8/dataset/type4py_complete_model.onnx results/
