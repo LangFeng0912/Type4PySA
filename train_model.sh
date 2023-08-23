@@ -22,19 +22,27 @@ done
 echo "Model is training on : $LIM projects"
 
 cd /..
-cd MTV0.8/
-type4py preprocess --o dataset --l $LIM
-type4py vectorize --o dataset
-type4py learns --o dataset --dt var
-type4py learns --o dataset --dt param
-type4py learns --o dataset --dt ret
-type4py gen_type_clu --o dataset --dt var
-type4py gen_type_clu --o dataset --dt param
-type4py gen_type_clu --o dataset --dt ret
-type4py reduce --o dataset --d 256
-type4py to_onnx --o dataset
 
-cd /..
-cp MTV0.8/dataset/label_encoder_all.pkl results/
-cp MTV0.8/dataset/type4py_complete_type_cluster_reduced results/
-cp MTV0.8/dataset/type4py_complete_model.onnx results/
+buildmt build --p raw_projects --l $LIM
+echo "Projects download and preprocess finished, start libSA4Py process"
+
+buildmt split --p raw_projects
+echo "Projects split ..."
+
+libsa4py process --p raw_projects --o results --s dataset_split.csv --pyre --j 8
+echo "Projects processed finished"
+
+type4py preprocess --o results --l $LIM
+type4py vectorize --o results
+type4py learns --o results --dt var
+type4py learns --o results --dt param
+type4py learns --o results --dt ret
+type4py gen_type_clu --o results --dt var
+type4py gen_type_clu --o results --dt param
+type4py gen_type_clu --o results --dt ret
+type4py reduce --o results --d 256
+type4py to_onnx --o results
+type4py infer_project --m results --p raw_projects --o results --a t4py
+type4py infer_project --m results --p raw_projects --o results --a t4pyre
+
+

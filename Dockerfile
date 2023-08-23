@@ -25,6 +25,9 @@ RUN apt install -y expect
 
 RUN apt-get install -y python3-distutils
 
+# Watchman dependencies
+RUN apt install -y libgoogle-glog0v5 libboost-context1.71.0 libdouble-conversion3 libevent-2.1-7 libsnappy1v5
+
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python3 get-pip.py
 
@@ -34,13 +37,14 @@ RUN apt-get install -y libssl-dev
 
 # download watchman
 RUN wget https://github.com/facebook/watchman/releases/download/v2022.12.12.00/watchman_ubuntu20.04_v2022.12.12.00.deb
-# RUN dpkg -i watchman_ubuntu20.04_v2022.12.12.00.deb
-# RUN apt-get -f -y install
-# RUN watchman version
+RUN dpkg -i watchman_ubuntu20.04_v2022.12.12.00.deb
+RUN apt-get -f -y install
+RUN watchman version
 
 # RUN apt install -y python3.8-venv
 # RUN python3 -m venv py38
 # RUN /bin/bash -c "source py38/bin/activate"
+RUN git clone https://github.com/facebook/pyre-check.git
 
 # The current model files are pickled with the below ver. of sklearn
 RUN pip install scikit-learn==0.24.1
@@ -57,7 +61,8 @@ RUN pip install --upgrade pip
 RUN pip install setuptools-rust
 
 # install libsa4py
-RUN git clone -b dev-lang https://github.com/saltudelft/libsa4py.git
+# RUN git clone -b dev-lang https://github.com/saltudelft/libsa4py.git
+RUN git clone https://github.com/LangFeng0912/libsa4py.git
 RUN pip install -r libsa4py/requirements.txt
 RUN pip install libsa4py/
 
@@ -70,12 +75,10 @@ RUN python3 -c "import nltk; nltk.download('wordnet')"
 RUN python3 -c "import nltk; nltk.download('omw-1.4')"
 RUN python3 -c "import nltk; nltk.download('averaged_perceptron_tagger')"
 
+RUN git clone https://github.com/LangFeng0912/build_MTV0.8.git
+RUN pip install -r build_MTV0.8/requirements.txt
+RUN pip install build_MTV0.8/
+
 # download dataset
 RUN wget https://zenodo.org/record/8255564/files/ManyTypes4PyV8.tar.gz?download=1
 RUN tar -xzvf ManyTypes4PyV8.tar.gz\?download\=1
-
-WORKDIR /maindir
-COPY train_model.sh /maindir/
-RUN chmod +x /maindir/train_model.sh
-ENTRYPOINT ["/maindir/train_model.sh"]
-
