@@ -82,7 +82,9 @@ RUN pip install build_MTV0.8/
 # download dataset
 RUN wget https://zenodo.org/record/8255564/files/ManyTypes4PyV8.tar.gz?download=1
 RUN tar -xzvf ManyTypes4PyV8.tar.gz\?download\=1
-# WORKDIR /maindir
-# COPY train_model.sh /maindir/
-# RUN chmod +x /maindir/train_model.sh
-# ENTRYPOINT ["/maindir/train_model.sh"]
+
+
+ WORKDIR /maindir
+ COPY train_model.sh /maindir
+ RUN chmod +x /maindir/train_model.sh
+ ENTRYPOINT ["/maindir/train_model.sh"]
